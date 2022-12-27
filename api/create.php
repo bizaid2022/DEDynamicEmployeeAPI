@@ -1,0 +1,56 @@
+<?php
+//   http://localhost:8080/api/create.php (POST)
+
+    header("Access-Control-Allow-Origin: *");
+    header('Content-Type: application/json; charset=utf-8');
+    header("Access-Control-Allow-Methods: POST");
+    header("Access-Control-Max-Age: 3600");
+    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    include $_SERVER['DOCUMENT_ROOT'] .'/DEDynamicEmployeeAPI/config/database.php';
+    include $_SERVER['DOCUMENT_ROOT'] .'/DEDynamicEmployeeAPI/class/employees.php';
+    $database = new Database();
+    $db = $database->getConnection();
+    $item = new Employee($db);
+    $data = json_decode(file_get_contents('php://input'));
+	//$data = file_get_contents('php://input');
+	
+	
+	/* $content = file_get_contents("php://input");
+	$data = json_decode($content, true); */
+	
+		
+    $item->EnrollNum = $data->EnrollNum;
+    $item->Name = $data->Name;
+    $item->Gender = $data->Gender;
+    $item->DateofBirth = $data->DateofBirth;
+	$item->Age = $data->Age;
+    $item->NRCNo = $data->NRCNo;
+    $item->FatherName = $data->FatherName;
+    $item->Race = $data->Race;
+	$item->Religion = $data->Religion;
+    $item->MaritalStatus = $data->MaritalStatus;
+    $item->Qualification = $data->Qualification;
+	
+    $item->PNoAndStreet = $data->PNoAndStreet;
+	$item->PTspId = $data->PTspId;
+    $item->PCityId = $data->PCityId;
+	
+	$item->CNoAndStreet = $data->CNoAndStreet;
+	$item->CTspId = $data->CTspId;
+    $item->CCityId = $data->CCityId;
+	
+	$item->JoinedDate = $data->JoinedDate;
+	$item->EmploymentContractId = $data->EmploymentContractId;
+    $item->CompanyName = $data->CompanyName;
+	
+    $item->PhoneNo = $data->PhoneNo;
+	$item->TaskArray = $data->TaskArray;
+	
+   // $item->created = date('Y-m-d H:i:s');
+    
+    if($item->createEmployee()){
+        echo 'Employee created successfully.';
+    } else{
+        echo 'Employee could not be created.';
+    }
+?>
